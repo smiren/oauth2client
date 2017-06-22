@@ -1989,7 +1989,7 @@ class OAuth2WebServerFlow(Flow):
             raise OAuth2DeviceCodeError(error_msg)
 
     @_helpers.positional(2)
-    def step2_exchange(self, code=None, http=None, device_flow_info=None):
+    def step2_exchange(self, code=None, http=None, device_flow_info=None, extra_headers=None):
         """Exchanges a code for OAuth2Credentials.
 
         Args:
@@ -2001,6 +2001,7 @@ class OAuth2WebServerFlow(Flow):
                   credentials.
             device_flow_info: DeviceFlowInfo, return value from step1 in the
                               case of a device flow.
+            extra_headers: dict. Extra headers for post get token request.
 
         Returns:
             An OAuth2Credentials object that can be used to authorize requests.
@@ -2046,6 +2047,8 @@ class OAuth2WebServerFlow(Flow):
             headers['Authorization'] = self.authorization_header
         if self.user_agent is not None:
             headers['user-agent'] = self.user_agent
+        if extra_headers:
+            headers.update(extra_headers)
 
         if http is None:
             http = transport.get_http_object()
