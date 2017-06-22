@@ -2085,10 +2085,10 @@ class OAuth2WebServerFlow(Flow):
             logger.info('Failed to retrieve access token: %s', content)
             if 'error' in d:
                 # you never know what those providers got to say
-                error_msg = (str(d['error']) +
-                             str(d.get('error_description', '')))
+                error_msg = (unicode(d['error']) +
+                             unicode(d.get('error_description', '')))
             else:
-                error_msg = 'Invalid response: {0}.'.format(str(resp.status))
+                error_msg = 'Invalid response: {0}.'.format(unicode(resp.status))
             raise FlowExchangeError(error_msg)
 
 
